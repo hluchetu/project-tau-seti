@@ -16,7 +16,9 @@ This is **not** an app and **not** a tutorial repo. It's a lab: every phase make
 | 4 | Hook mechanics | Why can't hooks live inside an `if`? |
 | 5 | Real React & Fiber | Does the real engine match what I built? |
 
-The full plan, phase exit criteria, and design decisions live in [docs/roadmap.md](docs/roadmap.md).
+The full plan, phase exit criteria, and design decisions live in [docs/roadmap.md](docs/roadmap.md). Each phase has a step-by-step lab guide:
+
+- [Day 1 — Launch & Foundation](docs/day-01.md)
 
 ## How this repo works
 
