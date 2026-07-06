@@ -1,57 +1,40 @@
-# Day 1 — Launch & Foundation (The Plain JS Era)
+# Day 1 — Build UI the Hard Way (Vanilla DOM)
 
-> **Phase 1 of the [roadmap](roadmap.md).** Today you scaffold the lab, build UI with nothing but raw DOM APIs, and — most importantly — *feel* the exact pain React was invented to remove.
+Today you build a small app **without React** — only plain JavaScript and the browser's DOM APIs. This is Phase 1 of the [roadmap](roadmap.md).
 
-**Time budget:** 2–3 hours
-**You will need:** Node.js ≥ 18, a terminal, a browser with DevTools.
-
----
-
-## What today answers
-
-**Why does React exist at all?**
-
-You will build a small app twice over with manual DOM manipulation. By the end, keeping the screen in sync with your data by hand should feel error-prone and unscalable — and you should be able to say *precisely why*, in your own words.
+**Time:** 2–3 hours
+**You need:** Node.js 18+, a terminal, a browser.
 
 ---
 
-## Step 1 — Scaffold the lab (~15 min)
+## Rules for all of today
 
-Create the Vite project **in the repo root** (the repo already has `README.md` and `docs/`, so scaffold into the current directory):
+You may only use these four APIs to put things on screen:
+
+1. `document.createElement(tag)`
+2. `element.textContent = ...`
+3. `element.appendChild(child)`
+4. `element.addEventListener('click', handler)`
+
+**`innerHTML` is not allowed.** If your code contains `innerHTML`, the work is not accepted.
+
+---
+
+## Step 1 — Set up the project
+
+Run these commands in an empty folder:
 
 ```bash
-npm create vite@latest . -- --template vanilla
+npm create vite@latest tau-ceti -- --template vanilla
+cd tau-ceti
 npm install
 ```
 
-Vite's vanilla template ships demo files you don't need. Delete `counter.js`, `javascript.svg`, `main.js`, `style.css`, and `public/vite.svg`.
+Then:
 
-Now set up the **one-page-per-phase** structure. Replace the root `index.html` with a plain hub page that just links to each phase:
-
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>🛸 Tau Ceti</title>
-  </head>
-  <body>
-    <h1>🛸 Tau Ceti — Lab Index</h1>
-    <ul>
-      <li><a href="/src/phase-1-vanilla/">Phase 1 — Plain JS foundation</a></li>
-    </ul>
-  </body>
-</html>
-```
-
-Create the phase 1 workspace:
-
-```bash
-mkdir -p src/phase-1-vanilla
-touch src/phase-1-vanilla/index.html src/phase-1-vanilla/main.js
-```
-
-`src/phase-1-vanilla/index.html` starts as an *empty stage* — everything visible must be created from JavaScript today:
+1. Delete the demo files: `counter.js`, `javascript.svg`, `style.css`, `main.js`, `public/vite.svg`.
+2. Create a folder `src/phase-1-vanilla/` with two files: `index.html` and `main.js`.
+3. Put this in `src/phase-1-vanilla/index.html`:
 
 ```html
 <!doctype html>
@@ -67,101 +50,73 @@ touch src/phase-1-vanilla/index.html src/phase-1-vanilla/main.js
 </html>
 ```
 
-Finally, add a minimal `vite.config.js` so `npm run build` knows about both pages (dev mode works without this, but set the pattern now — every new phase adds one line here):
+4. Replace the root `index.html` with a simple page that links to `/src/phase-1-vanilla/`.
 
-```js
-import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  build: {
-    rollupOptions: {
-      input: {
-        index: resolve(__dirname, 'index.html'),
-        'phase-1': resolve(__dirname, 'src/phase-1-vanilla/index.html'),
-      },
-    },
-  },
-})
-```
-
-**Checkpoint:** `npm run dev`, open `http://localhost:5173/` — you see the hub page, and the phase 1 link opens a blank page with no errors in the console.
+**Check:** run `npm run dev`, open the link it prints, click through to the phase 1 page. You should see an empty page with no errors in the browser console (F12).
 
 ---
 
-## Step 2 — A counter, the hard way (~30 min)
+## Step 2 — A counter
 
-In `src/phase-1-vanilla/main.js`, build a counter **using only these APIs** — no `innerHTML`, that's cheating the exercise:
+In `src/phase-1-vanilla/main.js`, build this. All elements must be created from JavaScript — the HTML stays as it is.
 
-- `document.createElement(tag)`
-- `element.textContent = ...`
-- `element.appendChild(child)`
-- `element.addEventListener('click', handler)`
+**We expect:**
 
-**Requirements:**
+1. A heading that shows `Count: 0`
+2. A `+` button — clicking it increases the number on screen by 1
+3. A `−` button — clicking it decreases the number on screen by 1
 
-1. A `<h2>` that reads `Count: 0`
-2. A `+` button and a `−` button
-3. Clicking updates the number on screen
-
-**Before you write any code**, ask yourself: where will the current count *live*? In a JavaScript variable, or in the DOM itself?
-
-Then build it. You'll hit the question immediately: when the button is clicked, how do you know the current value? You have two options — keep a `let count = 0` variable in JS (and remember to update the DOM every time it changes), or read it back out of the DOM (`parseInt(heading.textContent...)`). **Try it both ways.** The second one works, and it should horrify you slightly: your *data* is stored in a UI string.
-
-**Checkpoint:** counter works with both buttons, and you can explain which approach you kept and why.
+**Be ready to answer:** where does the current count live in your code — in a JavaScript variable, or do you read it out of the heading's text? Why did you choose that?
 
 ---
 
-## Step 3 — The pain experiment (~45 min)
+## Step 3 — A cargo list
 
-Now the real experiment. Below the counter, build a **cargo manifest** (it's a spaceship-themed lab, lean in):
+Below the counter, build a list manager.
 
-**Requirements:**
+**We expect:**
 
-1. A text input and an "Add cargo" button
-2. A `<ul>` listing each added item, each with its own "remove" button
-3. A **status bar at the top of the page** — created in Step 2's code, physically far from the list code — showing: `Items: N · Status: <EMPTY | LOADED>`
-4. Adding an item must update: the list, the item count, and the status word
-5. Removing an item must update all three as well
+1. A text input and an **Add cargo** button
+2. Each added item appears in a list, with its own **Remove** button
+3. At the **top of the page**, a status line that always shows:
+   `Items: <number> · Status: <EMPTY or LOADED>`
+   - `EMPTY` when the list has no items, `LOADED` otherwise
+4. Adding an item updates the list, the number, and the status word
+5. Removing an item also updates all three
+6. The count and status must **never** be wrong, no matter how fast you add and remove
 
-Rules stay the same: `createElement` / `appendChild` / `textContent` / `addEventListener` only.
+**Test yourself:** add three items, remove the middle one. Is the number right? Is the status right?
 
-**Predict first:** how many distinct DOM nodes will you have to manually touch for a single "add item" click?
-
-As you build, you will be forced into one of these patterns — notice which:
-
-- **Surgical updates:** after every state change, hand-write code that finds and updates each affected node. Fast, but every new UI element that depends on the data means *revisiting every event handler that changes it*.
-- **Nuke and rebuild:** write one `renderList()` function that empties the `<ul>` and rebuilds it from an array. Simpler to reason about — but you're now destroying and recreating untouched DOM nodes on every keystroke of change. (Type something into the input, add an item, notice anything about focus or the input's state if you rebuild too much? Poke at this.)
-
-**Checkpoint:** add and remove work, and count + status never desync from the list. Try to break it: add three items fast, remove the middle one, check the count.
+**Be ready to answer:** for one click of "Add cargo", how many separate elements did your code have to update?
 
 ---
 
-## Step 4 — Break it on purpose (~15 min)
+## Step 4 — Create a bug on purpose
 
-Do this deliberately:
+1. Add a second copy of the item count at the **bottom** of the page: `Manifest: <number> entries`.
+2. Update it in the **add** handler, but "forget" to update it in the **remove** handler.
+3. Add two items, remove one. Look at the two numbers.
 
-1. Add a second place in the UI that shows the item count (e.g. in the page footer: `Manifest: N entries`).
-2. Wire it up in the "add" handler… and *"forget"* to wire it in the "remove" handler.
-3. Click around. Watch the two counts diverge silently. No error. No warning. Just a UI lying to the user.
-
-This is the bug class React eliminates: **state duplicated into the DOM in multiple places, with humans responsible for remembering every sync point.** It doesn't crash — it just rots.
+**Be ready to answer:** the page is now showing wrong information, but there is no error anywhere. Why is this kind of bug dangerous?
 
 ---
 
-## Exit criteria — check before calling Day 1 done
+## Done checklist
 
-- [ ] `npm run dev` serves the hub page and the phase 1 page
-- [ ] Counter works, built with `createElement`/`appendChild` only
-- [ ] Cargo manifest: add + remove keep list, count, and status in sync
-- [ ] The Step 4 desync bug was reproduced
-- [ ] You can state, in one paragraph and your own words, the problem React solves
-- [ ] Everything committed and pushed
+- [ ] `npm run dev` works and shows your page
+- [ ] Counter works with both buttons
+- [ ] Cargo list: add and remove keep the list, the number, and the status in sync
+- [ ] The Step 4 bug was created and you saw the two numbers disagree
+- [ ] No `innerHTML` anywhere in your code
+- [ ] Your code is committed and pushed to your repo
 
-Update the phase 1 row in the `docs/roadmap.md` progress table to 🟨 **in progress**.
+## Questions you must be able to answer when presenting
+
+1. Where does your data (count, list of items) live, and why there?
+2. How many elements does one "add" click touch in your code?
+3. What happens when you forget one update — and why doesn't the browser warn you?
+4. In one paragraph, your own words: what problem would a tool need to solve so you never write this kind of code again?
 
 ---
 
-## What's next
-
-**Day 2 → Phase 2:** you'll write `customCreateElement(type, props, ...children)` — a function that returns UI as *plain data* instead of touching the DOM — and then trick Vite into compiling real JSX into calls to it. The frustration you felt today is the requirements spec for that function.
+**Next (Day 2):** you'll write a function that describes UI as plain data instead of touching the DOM — the first piece of your own mini-React.
