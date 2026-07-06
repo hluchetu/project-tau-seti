@@ -1,6 +1,6 @@
 # Day 1 — Launch & Foundation (The Plain JS Era)
 
-> **Phase 1 of the [roadmap](roadmap.md).** Today you scaffold the lab, build UI with nothing but raw DOM APIs, and — most importantly — *feel* the exact pain React was invented to remove. Do not skip the journal steps; they are the experiment.
+> **Phase 1 of the [roadmap](roadmap.md).** Today you scaffold the lab, build UI with nothing but raw DOM APIs, and — most importantly — *feel* the exact pain React was invented to remove.
 
 **Time budget:** 2–3 hours
 **You will need:** Node.js ≥ 18, a terminal, a browser with DevTools.
@@ -11,7 +11,7 @@
 
 **Why does React exist at all?**
 
-You will build a small app twice over with manual DOM manipulation. By the end, keeping the screen in sync with your data by hand should feel error-prone and unscalable — and you should be able to say *precisely why*, in your own words, in `NOTES.md`.
+You will build a small app twice over with manual DOM manipulation. By the end, keeping the screen in sync with your data by hand should feel error-prone and unscalable — and you should be able to say *precisely why*, in your own words.
 
 ---
 
@@ -48,7 +48,7 @@ Create the phase 1 workspace:
 
 ```bash
 mkdir -p src/phase-1-vanilla
-touch src/phase-1-vanilla/index.html src/phase-1-vanilla/main.js src/phase-1-vanilla/NOTES.md
+touch src/phase-1-vanilla/index.html src/phase-1-vanilla/main.js
 ```
 
 `src/phase-1-vanilla/index.html` starts as an *empty stage* — everything visible must be created from JavaScript today:
@@ -104,13 +104,11 @@ In `src/phase-1-vanilla/main.js`, build a counter **using only these APIs** — 
 2. A `+` button and a `−` button
 3. Clicking updates the number on screen
 
-**Before you write any code**, answer this in `NOTES.md` under a `## Predictions` heading:
-
-> Where will the current count *live*? In a JavaScript variable, or in the DOM itself?
+**Before you write any code**, ask yourself: where will the current count *live*? In a JavaScript variable, or in the DOM itself?
 
 Then build it. You'll hit the question immediately: when the button is clicked, how do you know the current value? You have two options — keep a `let count = 0` variable in JS (and remember to update the DOM every time it changes), or read it back out of the DOM (`parseInt(heading.textContent...)`). **Try it both ways.** The second one works, and it should horrify you slightly: your *data* is stored in a UI string.
 
-**Checkpoint:** counter works with both buttons. Record in `NOTES.md` which approach you kept and why.
+**Checkpoint:** counter works with both buttons, and you can explain which approach you kept and why.
 
 ---
 
@@ -128,7 +126,7 @@ Now the real experiment. Below the counter, build a **cargo manifest** (it's a s
 
 Rules stay the same: `createElement` / `appendChild` / `textContent` / `addEventListener` only.
 
-**Predict first** in `NOTES.md`: how many distinct DOM nodes will you have to manually touch for a single "add item" click?
+**Predict first:** how many distinct DOM nodes will you have to manually touch for a single "add item" click?
 
 As you build, you will be forced into one of these patterns — notice which:
 
@@ -141,7 +139,7 @@ As you build, you will be forced into one of these patterns — notice which:
 
 ## Step 4 — Break it on purpose (~15 min)
 
-Do this deliberately and record the result:
+Do this deliberately:
 
 1. Add a second place in the UI that shows the item count (e.g. in the page footer: `Manifest: N entries`).
 2. Wire it up in the "add" handler… and *"forget"* to wire it in the "remove" handler.
@@ -151,43 +149,19 @@ This is the bug class React eliminates: **state duplicated into the DOM in multi
 
 ---
 
-## Step 5 — Journal (~20 min, do not skip)
-
-Fill in `src/phase-1-vanilla/NOTES.md`. Suggested skeleton:
-
-```markdown
-# Phase 1 — Lab Notes
-
-## Predictions
-(written BEFORE coding — leave them unedited, wrong predictions are data)
-
-## What actually happened
-- Where the count "lived" and why it felt wrong:
-- Node-touch count for one "add item" click — predicted vs actual:
-- Which pattern I fell into (surgical vs nuke-and-rebuild) and what it cost:
-- The Step 4 silent-desync bug, in one sentence:
-
-## The problem statement React solves (my own words)
-(one paragraph, no jargon — you'll test this claim against your own engine in Phase 3)
-```
-
-The last section is the exit ticket for the whole phase.
-
----
-
 ## Exit criteria — check before calling Day 1 done
 
 - [ ] `npm run dev` serves the hub page and the phase 1 page
 - [ ] Counter works, built with `createElement`/`appendChild` only
 - [ ] Cargo manifest: add + remove keep list, count, and status in sync
-- [ ] The Step 4 desync bug was reproduced and documented
-- [ ] `NOTES.md` has predictions, results, and the problem-statement paragraph
+- [ ] The Step 4 desync bug was reproduced
+- [ ] You can state, in one paragraph and your own words, the problem React solves
 - [ ] Everything committed and pushed
 
-Update the phase 1 row in `README.md` and `docs/roadmap.md` progress tables to 🟨 **in progress** (it becomes ✅ only after Phase 1's notes survive contact with Phase 3, when you'll re-read them).
+Update the phase 1 row in the `docs/roadmap.md` progress table to 🟨 **in progress**.
 
 ---
 
 ## What's next
 
-**Day 2 → Phase 2:** you'll write `customCreateElement(type, props, ...children)` — a function that returns UI as *plain data* instead of touching the DOM — and then trick Vite into compiling real JSX into calls to it. The frustration you documented today is the requirements spec for that function.
+**Day 2 → Phase 2:** you'll write `customCreateElement(type, props, ...children)` — a function that returns UI as *plain data* instead of touching the DOM — and then trick Vite into compiling real JSX into calls to it. The frustration you felt today is the requirements spec for that function.

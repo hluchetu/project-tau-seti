@@ -10,10 +10,9 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| Language | Plain JavaScript (phases 1–4), optional TypeScript in phase 5 | Types get in the way while building a fake React; they help once using the real one |
+| Language | Plain JavaScript (phases 1–4), TypeScript in phase 5 | Types get in the way while building a fake React; they pay off once consuming real React's APIs |
 | Repo structure | Single Vite app, **multi-page entries** (one `index.html` per phase) | One dev server, one `node_modules`; phase 5's real React can't fight the custom JSX pragma used in phases 2–4 |
 | Code style | Skeleton + guided stubs | The interesting functions (`diff`, `myUseState`) are implemented by hand, not generated — otherwise the lab defeats its purpose |
-| Journal | Every phase gets a `NOTES.md` with *predicted vs. actually happened* | This is what makes it a lab and not a tutorial repo |
 
 ---
 
@@ -24,7 +23,6 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 - **1.1** Initialize the project with Vite's vanilla template.
 - **1.2** Build a counter button using raw DOM manipulation (`document.createElement`, `appendChild`, manual event wiring).
 - **1.3** Introduce a *nested* state change: a list where adding an item must also update a total counter elsewhere on the page. Manually target and update each affected DOM node.
-- **1.4 (journal)** Write down in `NOTES.md` precisely where it got tedious: which nodes you forgot to update, what state lived only in the DOM, why "re-render everything" is tempting but naive.
 
 **Exit criteria:** you can articulate, in your own words, the problem statement React solves — *keeping the DOM in sync with state by hand does not scale*.
 
@@ -74,7 +72,7 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 
 **Goal: switch to the official engine and recognize your own lab equipment inside it.**
 
-- **5.1** Add a phase-5 entry using real `react` + `react-dom` (and TypeScript if desired). This entry must *not* use the custom JSX pragma.
+- **5.1** Add a phase-5 entry using real `react` + `react-dom`, written in **TypeScript** (`.tsx`) — phases 1–4 taught the mechanics in plain JS; phase 5 adds the typed developer experience used in real-world React work. This entry must *not* use the custom JSX pragma.
 - **5.2** Inspect fiber nodes. Expect guided archaeology, not a clean API — internals are minified and version-dependent. Reliable route: React DevTools first, then pause in the debugger and walk `memoizedState`, `child`, `sibling`, `return` pointers on a live fiber. Map what you find back to Phase 4's hooks array and Phase 3's tree.
 - **5.3** Build re-render test-beds: components that trigger deliberate render waterfalls. Fix them with `useMemo`, `useCallback`, `React.memo`; use `useTransition` and the Profiler to watch React split long work into interruptible units.
 
@@ -86,17 +84,17 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 
 ```
 tau-ceti/
-├── README.md                 # Project front door + lab-journal index
+├── README.md                 # Project front door
 ├── docs/
 │   └── roadmap.md            # This file
 ├── package.json
 ├── vite.config.js            # Multi-page entry configuration
 └── src/
-    ├── phase-1-vanilla/      # index.html + raw DOM experiments + NOTES.md
-    ├── phase-2-compiler/     # customCreateElement + JSX pragma demo + NOTES.md
-    ├── phase-3-vdom/         # render + diff + patch engine + NOTES.md
-    ├── phase-4-hooks/        # myUseState / myUseEffect + re-render loop + NOTES.md
-    └── phase-5-real-react/   # real React entry + fiber inspection notes + NOTES.md
+    ├── phase-1-vanilla/      # index.html + raw DOM experiments
+    ├── phase-2-compiler/     # customCreateElement + JSX pragma demo
+    ├── phase-3-vdom/         # render + diff + patch engine
+    ├── phase-4-hooks/        # myUseState / myUseEffect + re-render loop
+    └── phase-5-real-react/   # real React entry + fiber inspection notes
 ```
 
 Each phase is its own Vite page (`/src/phase-1-vanilla/index.html`, …), so earlier phases stay frozen and runnable as later ones evolve.
