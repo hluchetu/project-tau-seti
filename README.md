@@ -19,6 +19,7 @@ This is **not** an app and **not** a tutorial repo. It's a lab: every phase runs
 The full plan, phase exit criteria, and design decisions live in [docs/roadmap.md](docs/roadmap.md). Each phase has a step-by-step lab guide:
 
 - [Day 1 — Launch & Foundation](docs/day-01.md)
+- [Day 2 — UI as Data (Your Own `createElement`)](docs/day-02.md)
 
 ## How this repo works
 
