@@ -67,11 +67,11 @@ It returns a plain object of exactly this shape:
 
 ## Step 3 — Rebuild yesterday's page as a blueprint
 
-In `main.jsx`, describe Day 1's cargo page as **one nested tree of `customCreateElement` calls** assigned to a single variable. Hard-code two or three cargo items — there is no state or interactivity today.
+In `main.jsx`, describe Day 1's task page as **one nested tree of `customCreateElement` calls** assigned to a single variable. Hard-code two or three task items — there is no state or interactivity today.
 
 **We expect:**
 
-1. The status line, the counter heading, the `+`/`−` buttons, the input, the **Add cargo** button, and a list with items that each have a **Remove** button — all present in one tree
+1. The status line, the counter heading, the `+`/`−` buttons, the input, the **Add task** button, and a list with items that each have a **Complete** and a **Delete** button — all present in one tree
 2. Every button gets an `onClick` prop whose value is a real function (e.g. `() => console.log('add clicked')`). Nothing will call it today — it just sits in the object
 3. `console.log(tree)` (the raw object) **and** `console.log(JSON.stringify(tree, null, 2))`
 
@@ -120,7 +120,7 @@ No plugin, no install: Vite's built-in compiler (esbuild) sees the `@jsx` commen
 
 - [ ] Phase 2 page is registered in `vite.config.js`, linked from the root page, and loads clean
 - [ ] `customCreateElement` returns the exact shape from Step 2, with no DOM code inside
-- [ ] Day 1's page exists as one hand-written blueprint tree, logged raw and stringified
+- [ ] Day 1's task page exists as one hand-written blueprint tree, logged raw and stringified
 - [ ] The JSX version produces the same tree as the hand-written one
 - [ ] You saw the compiled `customCreateElement(...)` calls in the Sources tab
 - [ ] You saw the React error from Step 5 and restored the pragma

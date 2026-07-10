@@ -2,7 +2,7 @@
 
 Tau Ceti is a progressive engineering lab: instead of building an app *with* React, it rebuilds the ideas *behind* React from the ground up, then switches to the real engine and inspects it from the inside.
 
-The arc is **pain → blueprint → diff → hooks → real React**. Each phase exists to answer a "why" that the next phase depends on.
+The arc is **pain → blueprint → diff → hooks → real React → framework**. Each phase exists to answer a "why" that the next phase depends on.
 
 ---
 
@@ -11,7 +11,7 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 | Decision | Choice | Rationale |
 |---|---|---|
 | Language | Plain JavaScript (phases 1–4), TypeScript in phase 5 | Types get in the way while building a fake React; they pay off once consuming real React's APIs |
-| Repo structure | Single Vite app, **multi-page entries** (one `index.html` per phase) | One dev server, one `node_modules`; phase 5's real React can't fight the custom JSX pragma used in phases 2–4 |
+| Repo structure | Course repo with the lab app in `tau-ceti/` — a single Vite app with **multi-page entries** (one `index.html` per phase) | Docs and app travel together; one dev server, one `node_modules`; phase 5's real React can't fight the custom JSX pragma used in phases 2–4 |
 | Code style | Skeleton + guided stubs | The interesting functions (`diff`, `myUseState`) are implemented by hand, not generated — otherwise the lab defeats its purpose |
 
 ---
@@ -80,24 +80,46 @@ The arc is **pain → blueprint → diff → hooks → real React**. Each phase 
 
 ---
 
+## 🌍 Phase 6 — The Framework Layer (Next.js)
+
+**Goal: see what React deliberately doesn't do — routing, server rendering, data — and how a framework fills the gap.**
+
+Next.js replaces Vite with its own compiler and server, so this phase is **its own app** in a `phase-6-nextjs/` folder at the repo root, not another page of the lab app.
+
+- **6.1** Scaffold with `npx create-next-app@latest` (TypeScript, App Router). Compare what you got for free against what you wired by hand in phases 1–5: routing, compilation, a server.
+- **6.2** File-based routing: add two static routes and one dynamic route (`app/tasks/[id]/page.tsx`). A file *is* a URL — no router code.
+- **6.3 Prove SSR.** Open a page, hit **View Source**: the full HTML is there. Contrast with the phase 1–5 pages, whose source is an empty `<div id="app">`. Then disable JavaScript in DevTools — the content still renders. Explain why.
+- **6.4** Server vs client components. Fetch data in a default (server) component with a plain `await` — no `useEffect`. Then rebuild Day 1's counter as a `"use client"` component. **Break it:** call `useState` in a server component and read the error; it tells you exactly where the client/server line is.
+- **6.5 Break hydration on purpose.** Render `Date.now()` directly in a component and read the hydration-mismatch warning. Work out why the server's HTML and the client's first render must be identical — this only makes sense because you know a render is just a function call producing a tree (Phase 3).
+
+**Exit criteria:** you can explain what Next.js adds *on top of* React and why SSR + hydration requires the virtual-DOM model you built in Phase 3.
+
+---
+
 ## 🛠️ Target directory structure
 
 ```
-tau-ceti/
+project-tau-ceti/             # this repo
 ├── README.md                 # Project front door
 ├── docs/
-│   └── roadmap.md            # This file
-├── package.json
-├── vite.config.js            # Multi-page entry configuration
-└── src/
-    ├── phase-1-vanilla/      # index.html + raw DOM experiments
-    ├── phase-2-compiler/     # customCreateElement + JSX pragma demo
-    ├── phase-3-vdom/         # render + diff + patch engine
-    ├── phase-4-hooks/        # myUseState / myUseEffect + re-render loop
-    └── phase-5-real-react/   # real React entry + fiber inspection notes
+│   ├── roadmap.md            # This file
+│   ├── day-01.md             # Day guides
+│   └── day-02.md
+├── tau-ceti/                 # the lab app — single Vite app, one page per phase
+│   ├── package.json
+│   ├── index.html            # front door linking to each phase page
+│   ├── vite.config.js        # Multi-page entry configuration (added in phase 2)
+│   ├── public/
+│   └── src/
+│       ├── phase-1-vanilla/      # index.html + raw DOM experiments
+│       ├── phase-2-compiler/     # customCreateElement + JSX pragma demo
+│       ├── phase-3-vdom/         # render + diff + patch engine
+│       ├── phase-4-hooks/        # myUseState / myUseEffect + re-render loop
+│       └── phase-5-real-react/   # real React entry + fiber inspection notes
+└── phase-6-nextjs/           # standalone Next.js app (own package.json)
 ```
 
-Each phase is its own Vite page (`/src/phase-1-vanilla/index.html`, …), so earlier phases stay frozen and runnable as later ones evolve.
+Phases 1–5 are pages of one Vite app (`tau-ceti/src/phase-1-vanilla/index.html`, …), so earlier phases stay frozen and runnable as later ones evolve. Phase 6 is a separate app because Next.js brings its own toolchain.
 
 ---
 
@@ -105,8 +127,9 @@ Each phase is its own Vite page (`/src/phase-1-vanilla/index.html`, …), so ear
 
 | Phase | Status |
 |---|---|
-| 1 — Plain JS foundation | ⬜ not started |
+| 1 — Plain JS foundation | 🟨 in progress — setup + counter done (1.1, 1.2); task list started, sync exercise (1.3) remaining |
 | 2 — Custom compiler target | ⬜ not started |
 | 3 — Reconciliation lab | ⬜ not started |
 | 4 — Hook mechanics | ⬜ not started |
 | 5 — Real React & Fiber | ⬜ not started |
+| 6 — Framework layer (Next.js) | ⬜ not started |
