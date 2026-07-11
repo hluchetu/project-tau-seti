@@ -20,6 +20,7 @@ The full plan, phase exit criteria, and design decisions live in [docs/roadmap.m
 
 - [Day 1 — Launch & Foundation](docs/day-01.md)
 - [Day 2 — UI as Data (Your Own `createElement`)](docs/day-02.md)
+- [Day 3 — The Renderer (Blueprints Become Real DOM)](docs/day-03.md)
 
 ## How this repo works
 
