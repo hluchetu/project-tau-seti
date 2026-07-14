@@ -129,7 +129,7 @@ Phases 1–5 are pages of one Vite app (`tau-ceti/src/phase-1-vanilla/index.html
 |---|---|
 | 1 — Plain JS foundation | 🟨 in progress — setup + counter done (1.1, 1.2); task list started, sync exercise (1.3) remaining |
 | 2 — Custom compiler target | ✅ complete — merged via `learning/phase-two/complete`; used global `jsxFactory` instead of the per-file pragma (revisit before Phase 5) |
-| 3 — Reconciliation lab | ⬜ not started |
+| 3 — Reconciliation lab | 🟨 in progress — 3.1 render done (`learning/phase-three/render`); diff (3.2–3.4) remaining |
 | 4 — Hook mechanics | ⬜ not started |
 | 5 — Real React & Fiber | ⬜ not started |
 | 6 — Framework layer (Next.js) | ⬜ not started |
