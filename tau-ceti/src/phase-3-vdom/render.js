@@ -1,33 +1,35 @@
 export function render(node, container) {
-  if (typeof node === "string" || typeof node === "number") {
-    container.appendChild(document.createTextNode(node));
-    return;
+
+  if (node == null || typeof node === 'boolean') {
+    return
   }
 
   if (Array.isArray(node)) {
-    for (const item of node) {
-      render(item, container);
+    node.forEach((child) => render(child, container))
+    return
+  }
+
+  if (typeof node === 'string' || typeof node === 'number') {
+    container.appendChild(document.createTextNode(String(node)))
+    
+    return
+  }
+
+  const element = document.createElement(node.type)
+  const { children = [], ...props } = node.props || {}
+
+
+  for (const [key, value] of Object.entries(props)) {
+    if (key === 'children') continue
+
+    if (key.startsWith('on') && typeof value === 'function') {
+      const eventName = key.slice(2).toLowerCase()
+      element.addEventListener(eventName, value)
+    } else {
+      element.setAttribute(key, value)
     }
-    return;
   }
 
-  const el = document.createElement(node.type);
-
-  for (const [key, value] of Object.entries(node.props)) {
-    if (key === "children") continue;
-
-    if (key.startsWith("on")) {
-      const eventName = key.slice(2).toLowerCase();
-      el.addEventListener(eventName, value);
-      continue;
-    }
-
-    el.setAttribute(key, value);
-  }
-
-  for (const child of node.props.children) {
-    render(child, el);
-  }
-
-  container.appendChild(el);
+  children.forEach((child) => render(child, element))
+  container.appendChild(element)
 }
