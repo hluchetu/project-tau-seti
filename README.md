@@ -22,6 +22,7 @@ The full plan, phase exit criteria, and design decisions live in [docs/roadmap.m
 - [Day 2 — UI as Data (Your Own `createElement`)](docs/day-02.md)
 - [Day 3 — The Renderer (Blueprints Become Real DOM)](docs/day-03.md)
 - [Day 4 — The Diff (Update Only What Changed)](docs/day-04.md)
+- [Day 5 — Keys (Give List Items an Identity)](docs/day-05.md)
 
 ## How this repo works
 

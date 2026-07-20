@@ -1,7 +1,9 @@
 import { customCreateElement } from './createElement.js'
 import { render } from './render.js'
+import { patch } from './diff.js'
 
 const app = document.querySelector('#app')
+let previousTree = null
 
 let tasks = [
   { text: 'Write blueprint', done: false },
@@ -57,10 +59,15 @@ function App() {
 
 function rerender() {
   if (!app) return
-  while (app.firstChild) {
-    app.removeChild(app.firstChild)
+
+  const newTree = App()
+
+  if (previousTree == null) {
+    render(newTree, app)
+  } else {
+    patch(app.firstChild, previousTree, newTree)
   }
 
-  render(App(), app)
+  previousTree = newTree
 }
 rerender()
