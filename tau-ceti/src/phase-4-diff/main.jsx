@@ -1,4 +1,4 @@
-import { customCreateElement } from './createElement.js'
+import { customCreateElement } from '../phase-3-vdom/createElement.js'
 import { render } from './render.js'
 import { patch } from './diff.js'
 
@@ -36,33 +36,26 @@ function deleteTask(index) {
 function App() {
   const completedCount = tasks.filter((task) => task.done).length
 
-  return customCreateElement(
-    'div',
-    { id: 'phase-4-app' },
-    customCreateElement('p', null, `Status: ${completedCount} of ${tasks.length} tasks completed`),
-    customCreateElement('h1', null, 'Phase 4 — Diff'),
-    customCreateElement(
-      'div',
-      { id: 'task-input' },
-      customCreateElement('input', {
-        id: 'new-task-input',
-        placeholder: 'New task name',
-      }),
-      customCreateElement('button', { onClick: addTask }, 'Add task')
-    ),
-    customCreateElement(
-      'ul',
-      null,
-      ...tasks.map((task, index) =>
-        customCreateElement(
-          'li',
-          null,
-          customCreateElement('span', null, `${task.text}${task.done ? ' (done)' : ''}`),
-          customCreateElement('button', { onClick: () => toggleTask(index) }, task.done ? 'Undo' : 'Complete'),
-          customCreateElement('button', { onClick: () => deleteTask(index) }, 'Delete')
-        )
-      )
-    )
+  return (
+    <div id="phase-4-app">
+      <p>Status: {completedCount} of {tasks.length} tasks completed</p>
+      <h1>Phase 4 — Diff</h1>
+      <div id="task-input">
+        <input id="new-task-input" placeholder="New task name" />
+        <button onClick={addTask}>Add task</button>
+      </div>
+      <ul>
+        {tasks.map((task, index) => (
+          <li>
+            <span>{task.text}{task.done ? ' (done)' : ''}</span>
+            <button onClick={() => toggleTask(index)}>
+              {task.done ? 'Undo' : 'Complete'}
+            </button>
+            <button onClick={() => deleteTask(index)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
