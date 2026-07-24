@@ -15,6 +15,7 @@ export default defineConfig({
         'phase-2': resolve(import.meta.dirname, 'src/phase-2-compiler/index.html'),
         'phase-3': resolve(import.meta.dirname, 'src/phase-3-vdom/index.html'),
         'phase-4': resolve(import.meta.dirname, 'src/phase-4-diff/index.html'),
+        'phase-6': resolve(import.meta.dirname, 'src/phase-6-hooks/index.html'),
         'phase-5': resolve(import.meta.dirname, 'src/phase-5-keys/index.html'),
       },
     },
